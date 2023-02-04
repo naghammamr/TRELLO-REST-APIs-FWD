@@ -1,0 +1,812 @@
+{
+	"info": {
+		"_postman_id": "c6a3bcf7-9fc0-4e0b-8050-df85a0e9d0aa",
+		"name": "Trello",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25345328"
+	},
+	"item": [
+		{
+			"name": "Organizations Management",
+			"item": [
+				{
+					"name": "Create New Organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();\r",
+									"\r",
+									"const organizationCreated = json.id\r",
+									"\r",
+									"if (organizationCreated) {\r",
+									"    pm.collectionVariables.set(\"WorkspaceID\",json.id);\r",
+									"\r",
+									"    pm.test(\"Status code is 200\", function () {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Header have Content type app/json\", function () {\r",
+									"        pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"ID is Not NULL\", () => {\r",
+									"        pm.expect(pm.response.id).to.not.equal(null)\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Response time is between 100ms and 2 seconds\", function () {\r",
+									"        pm.expect(pm.response.responseTime).to.be.above(100);\r",
+									"        pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"    });\r",
+									"\r",
+									"    // postman.setNextRequest(\"Get Member ID\");\r",
+									"}\r",
+									"// else {\r",
+									"//         pm.test(\"Status code is 400 Bad Request\", function () {\r",
+									"//         pm.response.to.have.status(400);\r",
+									"//     });\r",
+									"\r",
+									"//     postman.setNextRequest(null);\r",
+									"// }\r",
+									"\r",
+									"// postman.setNextRequest(null);\r",
+									"postman.setNextRequest(\"Get Member ID\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/1/organizations?displayName=FWD Trello&key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"organizations"
+							],
+							"query": [
+								{
+									"key": "displayName",
+									"value": "FWD Trello"
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID is Not NULL\", () => {\r",
+									"    pm.expect(pm.response.id).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"Create Board\");\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/1/organizations/:Organizationid?key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"organizations",
+								":Organizationid"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "Organizationid",
+									"value": "{{WorkspaceID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get boards in an organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID is Not NULL\", () => {\r",
+									"    pm.expect(pm.response.id).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"Create a new list\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/1/organizations/:id/boards?key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"organizations",
+								":id",
+								"boards"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{WorkspaceID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(null)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/1/organizations/:organizationID?key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"organizations",
+								":organizationID"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "organizationID",
+									"value": "{{WorkspaceID}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete an organization",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/1/organizations/:organizationID?key={{Key}}&token={{Token}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"1",
+										"organizations",
+										":organizationID"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{Key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{Token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "organizationID",
+											"value": "{{WorkspaceID}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Boards Management",
+			"item": [
+				{
+					"name": "Create Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"BoardID\",json.id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID is Not NULL\", () => {\r",
+									"    pm.expect(pm.response.id).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"Get boards in an organization\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/1/boards/?name=Board {{$timestamp}}&key={{Key}}&token={{Token}}&idOrganization={{WorkspaceID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"boards",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Board {{$timestamp}}"
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								},
+								{
+									"key": "idOrganization",
+									"value": "{{WorkspaceID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all lists on a board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"Archive a list\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/1/boards/:id/lists?key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"boards",
+								":id",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BoardID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"Delete an organization\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/1/boards/:Board_ID?key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"boards",
+								":Board_ID"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "Board_ID",
+									"value": "{{BoardID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lists Management",
+			"item": [
+				{
+					"name": "Create a new list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"ListID\",json.id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"var name = pm.collectionVariables.get(\"name\");\r",
+									"\r",
+									"pm.test(\"Lists data is valid\", () => {\r",
+									"    pm.expect(json.id).to.not.equal(null)\r",
+									"    pm.expect(json.name).to.not.equal(null)\r",
+									"   //pm.expect(json.name).to.equal(name)\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"Get all lists on a board\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"name\", \"List No.{{$randomAlphaNumeric}}\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/1/lists?name={{name}}&idBoard={{BoardID}}&key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{name}}"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{BoardID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Archive a list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"Delete a Board\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/1/lists/:id/closed?key={{Key}}&token={{Token}}&value=false",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"lists",
+								":id",
+								"closed"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								},
+								{
+									"key": "value",
+									"value": "false"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{ListID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Members Management",
+			"item": [
+				{
+					"name": "Get Member ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"MemberID\",json.id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"Get Member Organizations\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/1/members/me?key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"members",
+								"me"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Member Organizations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Header have Content type app/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"// var json = pm.response.json();\r",
+									"// pm.collectionVariables.set(\"orgID\",json.id[0])\r",
+									"\r",
+									"\r",
+									"postman.setNextRequest(\"Get Organization\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/1/members/:id/organizations?key={{Key}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"1",
+								"members",
+								":id",
+								"organizations"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{MemberID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://api.trello.com"
+		},
+		{
+			"key": "Key",
+			"value": "2f50edabad3cab4f5c258dc79a6ceca6"
+		},
+		{
+			"key": "Token",
+			"value": "ATTA95561b34f3cfbf7e1dea043eaf03e0dbc024fde0fc8f13dd55ec62cde97482a0355DB19C"
+		},
+		{
+			"key": "WorkspaceID",
+			"value": ""
+		},
+		{
+			"key": "MemberID",
+			"value": ""
+		},
+		{
+			"key": "BoardID",
+			"value": ""
+		},
+		{
+			"key": "ListID",
+			"value": ""
+		},
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "orgID",
+			"value": ""
+		}
+	]
+}
